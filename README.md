@@ -33,8 +33,8 @@ This project analyzes multiplayer match data and provides suggestions for balanc
 ## How to Run
 
 ### 1. Clone this repository
--git clone https://github.com/Vizzaq23/ai-game-balancer.git
--cd ai-game-balancer
+git clone https://github.com/Vizzaq23/ai-game-balancer.git
+cd ai-game-balancer
 ### 2 Create and activate a virtual environment
 -python -m venv venv
 -venv\Scripts\activate  # On Windows
