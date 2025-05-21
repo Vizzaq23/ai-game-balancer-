@@ -1,0 +1,9 @@
+player_id,team,weapon,kills,deaths,damage_done
+P1,Red,Rifle,18,6,1300
+P2,Blue,Shotgun,9,10,700
+P3,Red,Rifle,21,4,1450
+P4,Blue,Pistol,6,12,500
+P5,Red,Rifle,19,7,1200
+P6,Blue,Shotgun,10,11,750
+P7,Red,Pistol,8,9,600
+P8,Blue,Shotgun,7,13,550
