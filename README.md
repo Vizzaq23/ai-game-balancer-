@@ -11,6 +11,20 @@ This project analyzes multiplayer match data and provides suggestions for balanc
 - Visual bar chart showing average K/D per weapon
 - Flask backend and Streamlit frontend
 
+## Screenshots
+
+### Dashboard View
+![Dashboard](assets/dashboard.png)
+
+### K/D Ratio Chart
+![Chart](assets/chart.png)
+
+### Uploaded Match Data Preview
+![Data Table](assets/data-preview.png)
+
+### Flask Backend Running
+![Flask Terminal](assets/flask-terminal.png)
+
 
 
 ## How to Run
