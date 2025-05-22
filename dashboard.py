@@ -1,6 +1,7 @@
 import streamlit as st 
 import pandas as pd
 import requests
+import matplotlib.pyplot as plt
 
 # Set the title of the dashboard
 st.set_page_config(page_title="Game Balance Dashboard",layout="centered")
@@ -24,22 +25,36 @@ if uploaded_file is not None:
     # Show bar chart of average K/D per weapon
     st.write("📈 Average K/D Ratio per Weapon:")
     st.bar_chart(weapon_kdr)
-    if st.button("Analyze Data"):
-         json_data = df.to_dict(orient="records")  #turns it into a list of dictionaries
+    fig, ax = plt.subplots()
+    weapon_kdr.plot(kind="bar", ax=ax)
+    ax.set_ylabel("Avg K/D Ratio")
+    ax.set_xlabel("Weapon")
+    st.pyplot(fig)
+   
 
-        
-          # Send to Flask API Sends that list to your Flask API running at localhost:5000/analyze
-         #server will analyze it and return a list of weapon suggestions
-         response = requests.post("http://127.0.0.1:5000/analyze", json=json_data)
+    
+    # Send data to API
+    payload = {
+        "data": df.to_dict(orient="records"),
+        "tolerance": tolerance
+    }
 
-         if response.status_code == 200:
-    # Did the server respond OK?” (HTTP 200 = success)
+    try:
+        response = requests.post("http://127.0.0.1:5000/analyze", json=payload)
+        st.write("📡 Raw response object:", response)
+
+        if response.status_code == 200:
             results = response.json()
-            st.write("⚖️ **Weapon Balance Suggestions:**")
-            for r in results:
-                emoji = "✅" if r["suggestion"] == "none" else "⚠️"
-                st.write(f"{emoji} **{r['weapon']}** → {r['status'].upper()} → Suggest: `{r['suggestion']}`")
-         else:
-              st.error(f"API request failed. Status code: {response.status_code}")
+            st.write("🔍 API response data:", results)
 
-               
+            # If response is wrapped like {"suggestions": [...]}, unpack it
+            if isinstance(results, dict) and "suggestions" in results:
+                results = results["suggestions"]
+
+            st.write("⚖️ Weapon Balance Suggestions:")
+            for r in results:
+                st.write(f"⚠️ {r['weapon']} → {r['status'].upper()} → Suggest: {r['suggestion']}")
+        else:
+            st.error(f"API request failed. Status code: {response.status_code}")
+    except Exception as e:
+        st.error(f"⚠️ Failed to connect to API or parse response: {e}")
