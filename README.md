@@ -16,6 +16,7 @@ This project analyzes multiplayer match data and provides suggestions for balanc
 
 ### Dashboard View
 ![Dashboard](assets/desktop.png)
+![Updated Dashboard](assets/desktop2.PNG)
 
 ### K/D Ratio Chart
 ![Chart](assets/barchart.png.jpeg)
@@ -28,9 +29,6 @@ This project analyzes multiplayer match data and provides suggestions for balanc
 
 ### Code Preview
 ![Code](assets/code-preview.png.PNG)
-### Updated Dashboard View
-![Updated Dashboard](assets/desktop2.PNG)
-
 
 ## How to Run
 
