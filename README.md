@@ -12,12 +12,29 @@ This project analyzes multiplayer match data and provides suggestions for balanc
 - Flask backend and Streamlit frontend
 
 
+## Screenshots
+
+### Dashboard View
+![Dashboard](assets/desktop.png)
+
+### K/D Ratio Chart
+![Chart](assets/barchart.png.jpeg)
+
+### Uploaded Match Data Preview
+![Data Table](assets/data-preview.png.jpeg)
+
+### Flask Backend Running
+![Flask Terminal](assets/flask-terminal.png)
+
+### Code Preview
+![Code](assets/code-preview.png.PNG)
+
 
 ## How to Run
 
 ### 1. Clone this repository
--git clone https://github.com/Vizzaq23/ai-game-balancer.git
--cd ai-game-balancer
+git clone https://github.com/Vizzaq23/ai-game-balancer-.git
+cd ai-game-balancer-
 ### 2 Create and activate a virtual environment
 -python -m venv venv
 -venv\Scripts\activate  # On Windows
