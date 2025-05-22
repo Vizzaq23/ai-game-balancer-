@@ -28,6 +28,8 @@ This project analyzes multiplayer match data and provides suggestions for balanc
 
 ### Code Preview
 ![Code](assets/code-preview.png.PNG)
+### Updated Dashboard View
+![Updated Dashboard](assets/desktop2.PNG)
 
 
 ## How to Run
