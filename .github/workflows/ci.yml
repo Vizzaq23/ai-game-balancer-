@@ -1,0 +1,46 @@
+name: Checks
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+      - run: npm ci
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - name: Browser workflow and accessibility checks
+        run: |
+          python api.py > /tmp/balancer.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:5000/health && break; sleep 1; done
+          cd frontend
+          npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: browser-failures
+          path: frontend/test-results
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t game-balancer .
+      - name: Verify container startup
+        run: |
+          docker run -d --name balancer -p 10000:10000 game-balancer
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:10000/health && break; sleep 1; done
+          curl --fail http://127.0.0.1:10000/health
+          curl --fail http://127.0.0.1:10000/ | grep 'AI Game Balancer'
