@@ -20,6 +20,25 @@ To reproduce the deployment with a Blueprint:
 
 The configuration uses `autoDeployTrigger: checksPass`, so subsequent automatic deployments wait for checks. See [Render's Docker documentation](https://render.com/docs/docker) and [Blueprint specification](https://render.com/docs/blueprint-spec) for platform details. The free plan may sleep when idle; initial requests can take longer. Do not enable a paid plan without reviewing its price.
 
+## Vercel frontend with Render API
+
+**Live dashboard:** [ai-game-balancer.vercel.app](https://ai-game-balancer.vercel.app)
+
+Project `ai-game-balancer` is deployed in the `Quintin` workspace (`quintin-b167b285`) on Hobby, tracking `main`. The initial release of commit `2389d203f0009a578e37be37c4904dd61a43faf6` passed all 10 desktop/mobile browser tests on September 10, 2026 (America/New_York). Public `/health` returned `status: ok`; an exact 10 MiB CSV with 50,000 synthetic rows and its 12.75 MB normalized JSON filter request succeeded. A CSV one byte over the limit returned the expected actionable validation error. No paid AI calls were used.
+
+The additional Vercel deployment builds `frontend/` as a Vite application. `frontend/vercel.json` proxies `/api/*`, `/health`, and the legacy `/analyze` endpoint to the existing Render service. Analysis responses use `Cache-Control: no-store`. Flask, upload validation, and optional AI remain on Render; Vercel does not run a Python function or store uploaded records.
+
+To reproduce this setup:
+
+1. Import `Vizzaq23/ai-game-balancer-` from GitHub into Vercel and select `main`.
+2. Set **Root Directory** to `frontend` and **Application Preset** to Vite. The checked-in configuration sets `npm ci`, `npm run build`, and `dist`.
+3. Leave frontend environment variables empty. OpenAI credentials and `ENABLE_LIVE_AI` belong only on Render.
+4. Deploy, then verify `/health`, demo analysis, upload, filtering, explanations, and report downloads on the assigned public domain.
+
+This setup depends on Render availability. The dashboard can load while the free Render service wakes; analysis requests may need a retry during that period. Keep the Render service URL in `frontend/vercel.json` current if the backend moves. A direct Flask deployment to Vercel Functions would need a different upload design because of the function payload limit.
+
+See [Vercel external rewrites](https://vercel.com/docs/routing/rewrites) and [function payload limits](https://vercel.com/kb/guide/how-to-bypass-vercel-body-size-limit-serverless-functions). Roll back the frontend through Vercel's deployment history; roll back the API separately on Render.
+
 ## Run the same image locally
 
 ```sh

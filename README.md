@@ -10,11 +10,11 @@
 
 AI Game Balancer turns CSV playtest observations into an interactive dashboard for investigating weapon and team performance. Explore a synthetic dataset, compare aggregate metrics, adjust the detection tolerance, and export a report that explains the evidence and its limitations.
 
-**[Live demo](https://ai-game-balancer.onrender.com) · [Quick start](#run-locally-on-windows) · [Methodology](#how-the-analysis-works) · [API reference](docs/API.md) · [Deployment guide](docs/DEPLOYMENT.md)**
+**[Live demo](https://ai-game-balancer.vercel.app) · [Render demo](https://ai-game-balancer.onrender.com) · [Quick start](#run-locally-on-windows) · [Methodology](#how-the-analysis-works) · [API reference](docs/API.md) · [Deployment guide](docs/DEPLOYMENT.md)**
 
 ![Balance Studio dashboard](assets/studio-dashboard.png)
 
-> The public demo runs on Render's free plan and may take around a minute to wake after inactivity. Built-in explanations are enabled; no API key or account is needed to try it.
+> The dashboard is hosted on Vercel, with its Flask API on Render's free plan. The API may take around a minute to wake after inactivity; retry if an initial analysis request times out. Built-in explanations are enabled; no API key or account is needed to try it. Render also serves the complete app at the alternate demo link.
 
 ## What you can do
 
@@ -146,7 +146,7 @@ docker run --rm -p 10000:10000 -e ENABLE_LIVE_AI=false ai-game-balancer
 
 Open [localhost:10000](http://localhost:10000). The container exposes `/health` for readiness checks.
 
-The verified public deployment is on **[Render](https://ai-game-balancer.onrender.com)**. An additional Vercel deployment is pending; no Vercel demo is published yet. See the [deployment guide](docs/DEPLOYMENT.md) for release verification and rollback instructions.
+The public dashboard is available on **[Vercel](https://ai-game-balancer.vercel.app)**, with the complete Docker app also available on **[Render](https://ai-game-balancer.onrender.com)**. Vercel builds `frontend/` and proxies API requests to Render using `frontend/vercel.json`; no frontend secrets are required. The Vercel deployment passed all 10 desktop/mobile workflow tests and live checks for the 10 MiB / 50,000-row upload boundary. See the [deployment guide](docs/DEPLOYMENT.md) for setup, release verification, and rollback instructions.
 
 ## Project background
 
