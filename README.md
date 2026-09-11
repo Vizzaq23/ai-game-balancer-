@@ -1,23 +1,32 @@
 # AI Game Balancer
 
-**A balance studio for multiplayer playtests.** Upload match observations, inspect weapon and team performance, and turn potential balance signals into a better next experiment.
+### Multiplayer playtest analytics, with evidence you can inspect.
 
-Built by [Quintin Vizza](https://www.linkedin.com/in/Quintin-Vizza). React + TypeScript dashboard, Flask API, deterministic analysis, and optional AI explanations.
+[![Checks](https://github.com/Vizzaq23/ai-game-balancer-/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Vizzaq23/ai-game-balancer-/actions/workflows/ci.yml)
+![React](https://img.shields.io/badge/React-19-149eca)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178c6)
+![Python](https://img.shields.io/badge/Python-3.12-3776ab)
+![Flask](https://img.shields.io/badge/API-Flask-444444)
+
+AI Game Balancer turns CSV playtest observations into an interactive dashboard for investigating weapon and team performance. Explore a synthetic dataset, compare aggregate metrics, adjust the detection tolerance, and export a report that explains the evidence and its limitations.
+
+**[Live demo](https://ai-game-balancer.onrender.com) · [Quick start](#run-locally-on-windows) · [Methodology](#how-the-analysis-works) · [API reference](docs/API.md) · [Deployment guide](docs/DEPLOYMENT.md)**
 
 ![Balance Studio dashboard](assets/studio-dashboard.png)
 
-**[Try the live Balance Studio →](https://ai-game-balancer.onrender.com)**
-
-Hosted on Render's free plan. The first visit after inactivity can take around a minute to wake the service. Live AI is disabled; built-in explanations work without an API key. The public deployment passed all 10 desktop/mobile browser workflow tests, including accessibility and export checks.
+> The public demo runs on Render's free plan and may take around a minute to wake after inactivity. Built-in explanations are enabled; no API key or account is needed to try it.
 
 ## What you can do
 
-- Explore 607 reproducible **synthetic** playtest records across six weapons and two teams, without an API key or sign-up.
-- Upload a UTF-8 CSV, validate its records, and filter by weapon or team.
-- Compare aggregate K/D, record share, sample counts, damage coverage, and team totals.
-- Adjust an absolute K/D tolerance and inspect potential imbalance signals with their evidence.
-- Search and paginate the underlying records. Export weapon metrics as CSV and a standalone HTML report with context, methodology, and explanations.
-- Request built-in explanations by default, or configure optional server-side OpenAI explanations.
+| Capability | What it provides |
+| --- | --- |
+| Demo onboarding | 607 reproducible **synthetic** observations across six weapons and two teams, including suspicious and insufficient-data examples. |
+| CSV analysis | Actionable validation, weapon/team filters, and a searchable, paginated record table. |
+| Performance comparisons | Aggregate K/D, record share, sample counts, damage coverage, and team totals. |
+| Balance signals | Adjustable absolute K/D tolerance with visible evidence and minimum-sample safeguards. |
+| Portable reports | Weapon metrics as CSV and a standalone HTML report containing filters, methodology, findings, and explanations. |
+| Optional AI | Explicitly requested server-side OpenAI explanations, with built-in explanations available by default. |
+| Responsive interface | Dark dashboard with mobile layouts, keyboard navigation, and loading, empty, and error states. |
 
 Uploads exist only in memory. There are no accounts, saved datasets, billing, patch comparisons, or predictive balance simulations.
 
@@ -83,7 +92,9 @@ To opt in, copy `.env.example` to `.env`, set `ENABLE_LIVE_AI=true`, supply your
 
 Only aggregate weapon findings are sent to OpenAI—never player IDs or raw records. Explanation calls run only on request, with a timeout and conservative hourly cap. Missing credentials or provider failures keep the dashboard usable through built-in explanations. See [API details](docs/API.md) for limits and behavior.
 
-## Verification
+## Quality and verification
+
+GitHub Actions runs backend tests, the TypeScript/production build, desktop and mobile browser workflows, and a Docker build with container health checks. AI provider calls are mocked in tests.
 
 With Flask serving the production build:
 
@@ -95,19 +106,50 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The tests cover calculation boundaries, minimum samples, zero deaths, validation and upload limits, filtering, API compatibility, mocked AI success/failure, complete desktop/mobile workflows, exports, keyboard interaction, and WCAG accessibility checks. No paid API calls are required.
+The tests cover calculation boundaries, minimum samples, zero deaths, validation and upload limits, filtering, API compatibility, mocked AI success/failure, complete desktop/mobile workflows, exports, keyboard interaction, and automated accessibility checks. No paid API calls are required. Automated accessibility checks supplement manual review; they are not a claim of complete WCAG conformance.
 
 To regenerate screenshots from the running app: `node scripts/capture.mjs` inside `frontend/`. Screenshots use synthetic data. Python dependencies are pinned in `requirements*.txt` and frontend dependencies in `frontend/package-lock.json`. Update Python locks deliberately with `pip-compile requirements.in -o requirements.txt` and `pip-compile requirements-dev.in -o requirements-dev.txt` after installing `pip-tools`.
 
-## Architecture and deployment
+## Architecture
 
 ```text
-React dashboard → Flask API → shared validation + analysis
-                           → optional aggregate-only AI explanation
+Browser: React + TypeScript + Tailwind + Recharts
+                         |
+                 Flask /api/v1/*
+                         |
+             Shared Python analysis engine
+                |                     |
+       Built-in explanations   Optional OpenAI request
+                               (aggregate findings only)
 ```
 
 `balancer/` holds the shared Python engine; `api.py` exposes the API and serves the built frontend. The CLI (`python analyze_data.py match_data.csv`) uses the same engine. `frontend/` uses React, TypeScript, Vite, Tailwind, Recharts, and Lucide icons. Versioned interfaces and the legacy `/analyze` adapter are documented in [API.md](docs/API.md).
 
-The Docker image builds the frontend and serves both UI and API as one non-root service. `render.yaml` configures Render with live AI disabled. GitHub Actions checks the app and container. See [deployment, verification, and rollback instructions](docs/DEPLOYMENT.md).
+| Path | Responsibility |
+| --- | --- |
+| `frontend/src/` | Dashboard, API client, charts, and browser-side exports. |
+| `balancer/` | CSV validation, aggregation, synthetic demo, and explanations. |
+| `api.py` | Flask routes, consistent API responses, and static frontend serving. |
+| `analyze_data.py` | Command-line access to the shared analysis engine. |
+| `tests/` | Backend unit and API tests. |
+| `frontend/tests/` | Playwright browser and accessibility checks. |
+| `docs/` | API contract and release operations. |
 
-This revamp preserves the original Flask/Streamlit prototype in Git history while replacing its duplicated calculations, ignored sensitivity setting, raw debugging output, and missing dependency setup.
+## Deployment
+
+The Docker image builds the frontend and serves both UI and API through Gunicorn as one non-root service. No database or persistent disk is required. `render.yaml` configures Render with live AI disabled.
+
+```sh
+docker build -t ai-game-balancer .
+docker run --rm -p 10000:10000 -e ENABLE_LIVE_AI=false ai-game-balancer
+```
+
+Open [localhost:10000](http://localhost:10000). The container exposes `/health` for readiness checks.
+
+The verified public deployment is on **[Render](https://ai-game-balancer.onrender.com)**. An additional Vercel deployment is pending; no Vercel demo is published yet. See the [deployment guide](docs/DEPLOYMENT.md) for release verification and rollback instructions.
+
+## Project background
+
+Built by **[Quintin Vizza](https://www.linkedin.com/in/Quintin-Vizza)** as a portfolio project demonstrating full-stack engineering, explainable analytics, and tested deployment workflows.
+
+The project evolved from a Flask/Streamlit prototype into a React application with a shared analysis engine. The original implementation remains in Git history. The scope is descriptive playtest analysis: it does not predict ideal balance, prescribe exact damage adjustments, or replace controlled experiments.
