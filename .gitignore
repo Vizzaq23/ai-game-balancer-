@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.env
+node_modules/
+frontend/dist/
+test-results/
+playwright-report/
+*.log
+.coverage
+.npm-cache/
+.pip-cache/
+.playwright/
+*.tsbuildinfo
