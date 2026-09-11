@@ -13,10 +13,10 @@ The deployed application passed all 10 desktop/mobile workflow tests on Septembe
 To reproduce the deployment with a Blueprint:
 
 1. Push the tested branch to GitHub and authorize Render for this repository.
-2. Create a Blueprint from the repository and choose the release branch. `render.yaml` creates a free Docker web service with `/health` checks and live AI disabled.
+2. Create a Blueprint from the repository and choose `main`. `render.yaml` creates a free Docker web service with `/health` checks and live AI disabled.
 3. Wait for the build and deployment to complete. Use the URL assigned by Render; do not assume the service name is an available hostname.
 4. Verify `/health`, load the demo, upload the CSV template, adjust filters, and download the HTML report on the live URL.
-5. Add the verified URL to the README. If the Blueprint tracks a release branch, change its branch to `main` when the reviewed PR is merged.
+5. Add the verified URL to the README. Keep the service tracking `main` for future releases.
 
 The configuration uses `autoDeployTrigger: checksPass`, so subsequent automatic deployments wait for checks. See [Render's Docker documentation](https://render.com/docs/docker) and [Blueprint specification](https://render.com/docs/blueprint-spec) for platform details. The free plan may sleep when idle; initial requests can take longer. Do not enable a paid plan without reviewing its price.
 

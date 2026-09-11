@@ -34,7 +34,7 @@ Uploads exist only in memory. There are no accounts, saved datasets, billing, pa
 Install Python 3.12 and Node.js 22 or newer, then run in PowerShell:
 
 ```powershell
-git clone --branch codex/portfolio-revamp https://github.com/Vizzaq23/ai-game-balancer-.git
+git clone https://github.com/Vizzaq23/ai-game-balancer-.git
 cd ai-game-balancer-
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
