@@ -4,6 +4,14 @@ The app runs as one Docker service: Vite builds static assets; Flask serves thos
 
 ## Render
 
+**Live service:** [ai-game-balancer.onrender.com](https://ai-game-balancer.onrender.com)
+
+The initial release was created through Render's Git Provider web-service flow using Docker, the free plan, branch `codex/portfolio-revamp`, `/health`, `ENABLE_LIVE_AI=false`, and **After CI Checks Pass** auto-deploys. These settings match `render.yaml`; the current service is not managed by a Blueprint. Service ID: `srv-dahkfgafngtc73ct03dg`.
+
+The deployed application passed all 10 desktop/mobile workflow tests on September 10, 2026 (America/New_York), and `/health` returned `status: ok`. The backend's 49 tests passed, and GitHub Actions verified the Linux build and Docker startup. The original implementation commit is `c7924d5ad86ed5d4c11865b7439a471261717715`.
+
+To reproduce the deployment with a Blueprint:
+
 1. Push the tested branch to GitHub and authorize Render for this repository.
 2. Create a Blueprint from the repository and choose the release branch. `render.yaml` creates a free Docker web service with `/health` checks and live AI disabled.
 3. Wait for the build and deployment to complete. Use the URL assigned by Render; do not assume the service name is an available hostname.

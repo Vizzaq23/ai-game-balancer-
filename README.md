@@ -6,7 +6,9 @@ Built by [Quintin Vizza](https://www.linkedin.com/in/Quintin-Vizza). React + Typ
 
 ![Balance Studio dashboard](assets/studio-dashboard.png)
 
-**Public demo:** deployment is pending Render account authorization. A live URL will be added after the deployed workflow is verified. You can run the complete app locally today.
+**[Try the live Balance Studio →](https://ai-game-balancer.onrender.com)**
+
+Hosted on Render's free plan. The first visit after inactivity can take around a minute to wake the service. Live AI is disabled; built-in explanations work without an API key. The public deployment passed all 10 desktop/mobile browser workflow tests, including accessibility and export checks.
 
 ## What you can do
 
