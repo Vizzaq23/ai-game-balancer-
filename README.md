@@ -1,18 +1,43 @@
-# AI Game Balancer
+<!-- README presentation: Vizzaq23 portfolio palette -->
+<p align="center">
+  <a href="https://github.com/Vizzaq23"><img src="https://img.shields.io/badge/Vizzaq23%20%C2%B7%20GAME%20ANALYTICS-101722?style=flat-square&amp;labelColor=101722&amp;color=D7B877" alt="Vizzaq23 · GAME ANALYTICS" /></a>
+</p>
 
-### Multiplayer playtest analytics, with evidence you can inspect.
+<h1 align="center">AI Game Balancer</h1>
+
+<p align="center"><strong>Turn playtest data into balance decisions you can inspect.</strong></p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-101722?style=flat-square&amp;labelColor=101722&amp;color=85CFE8" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-101722?style=flat-square&amp;labelColor=101722&amp;color=D7B877" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Python-101722?style=flat-square&amp;labelColor=101722&amp;color=B8A1E3" alt="Python" />
+  <img src="https://img.shields.io/badge/Flask-101722?style=flat-square&amp;labelColor=101722&amp;color=9FC9A2" alt="Flask" />
+</p>
+
+<p align="center">
+  <a href="https://ai-game-balancer.vercel.app">Live demo</a> · <a href="https://ai-game-balancer.onrender.com">Alternate demo</a> · <a href="https://quintinvizza.dev">Portfolio</a> · <a href="https://github.com/Vizzaq23">GitHub profile</a>
+</p>
+
+<p align="center">
+  <a href="#overview">Overview</a> · <a href="#run-locally-on-windows">Quick start</a> · <a href="#what-you-can-do">Features</a> · <a href="#how-the-analysis-works">Methodology</a> · <a href="docs/API.md">API</a>
+</p>
+
+<img src="https://raw.githubusercontent.com/Vizzaq23/Vizzaq23/main/assets/divider.svg" width="100%" alt="" />
+
+<p align="center">
+  <img src="assets/studio-dashboard.png" width="100%" alt="Balance Studio dashboard" />
+  <br /><sub>Playtest analytics dashboard</sub>
+</p>
 
 [![Checks](https://github.com/Vizzaq23/ai-game-balancer-/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Vizzaq23/ai-game-balancer-/actions/workflows/ci.yml)
-![React](https://img.shields.io/badge/React-19-149eca)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178c6)
-![Python](https://img.shields.io/badge/Python-3.12-3776ab)
-![Flask](https://img.shields.io/badge/API-Flask-444444)
+
+## Overview
 
 AI Game Balancer turns CSV playtest observations into an interactive dashboard for investigating weapon and team performance. Explore a synthetic dataset, compare aggregate metrics, adjust the detection tolerance, and export a report that explains the evidence and its limitations.
 
 **[Live demo](https://ai-game-balancer.vercel.app) · [Render demo](https://ai-game-balancer.onrender.com) · [Quick start](#run-locally-on-windows) · [Methodology](#how-the-analysis-works) · [API reference](docs/API.md) · [Deployment guide](docs/DEPLOYMENT.md)**
 
-![Balance Studio dashboard](assets/studio-dashboard.png)
+
 
 > The dashboard is hosted on Vercel, with its Flask API on Render's free plan. The API may take around a minute to wake after inactivity; retry if an initial analysis request times out. Built-in explanations are enabled; no API key or account is needed to try it. Render also serves the complete app at the alternate demo link.
 
@@ -153,3 +178,7 @@ The public dashboard is available on **[Vercel](https://ai-game-balancer.vercel.
 Built by **[Quintin Vizza](https://www.linkedin.com/in/Quintin-Vizza)** as a portfolio project demonstrating full-stack engineering, explainable analytics, and tested deployment workflows.
 
 The project evolved from a Flask/Streamlit prototype into a React application with a shared analysis engine. The original implementation remains in Git history. The scope is descriptive playtest analysis: it does not predict ideal balance, prescribe exact damage adjustments, or replace controlled experiments.
+
+<img src="https://raw.githubusercontent.com/Vizzaq23/Vizzaq23/main/assets/divider.svg" width="100%" alt="" />
+
+<p align="center"><sub>Built by <a href="https://github.com/Vizzaq23">Quintin Vizza</a> · <a href="https://quintinvizza.dev">Explore my work</a></sub></p>
